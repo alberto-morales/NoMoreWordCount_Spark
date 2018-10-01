@@ -1,12 +1,13 @@
-package eu.albertomorales.scalaSparkIntro.regex
+package eu.albertomorales.scalaSparkIntro.logsProcessor.pruebas.regex
+
+import eu.albertomorales.scalaSparkIntro.logsProcessor.HCISLogPattern._
 
 object Prueba6 {
   
     def doIt() {
       val cadena = "/hphis/ping.png"
-      val HCISEstaticosURLPattern = "^\\S+(\\.js|\\.gif|\\.css|\\.jpg|\\.png)$".r
       try {     
-        val HCISEstaticosURLPattern(archivo) = cadena    
+        val EstaticosURLPattern(archivo) = cadena    
         println("Es estático")
       } catch {
         case e: scala.MatchError => {

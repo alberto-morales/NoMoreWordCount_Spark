@@ -1,10 +1,11 @@
-package eu.albertomorales.scalaSparkIntro.regex
+package eu.albertomorales.scalaSparkIntro.logsProcessor.pruebas.regex
+
+import eu.albertomorales.scalaSparkIntro.logsProcessor.HCISLogPattern._
 
 object Prueba2 {
     def comprueba(cadena : String) {
-      val HCISAjaxServletURL2Pattern = "^\\S+AjaxServlet\\.servl\\S+classtoexecute=([^&]+)\\S*$".r
       try {     
-        val HCISAjaxServletURL2Pattern(accion) = cadena    
+        val AjaxServletURLPattern(accion) = cadena    
         println("Es un ajax: "+accion)
       } catch {
         case e: scala.MatchError => {

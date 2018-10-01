@@ -1,10 +1,11 @@
-package eu.albertomorales.scalaSparkIntro.regex
+package eu.albertomorales.scalaSparkIntro.logsProcessor.pruebas.regex
+
+import eu.albertomorales.scalaSparkIntro.logsProcessor.HCISLogPattern._
 
 object Prueba {
     def comprueba(cadena : String) {
-      val HCISLogPattern = "^(?!#)(\\S+\\s+\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+\\??\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(.+)\\s+(\\S+)\\s+(\\S+)$".r
       try {     
-        val HCISLogPattern(g_fecha_hora, g_tiempo, g_l1, g_metodo, g_uri, g_codigo, g_tamanio, g_agente, g_l2, g_nodo) = cadena    
+        val LinePattern(g_fecha_hora, g_tiempo, g_l1, g_metodo, g_uri, g_codigo, g_tamanio, g_agente, g_l2, g_nodo) = cadena    
         println("g_fecha_hora: "+g_fecha_hora)
         println("g_tiempo: "+g_tiempo)
         println("g_l1: "+g_l1)

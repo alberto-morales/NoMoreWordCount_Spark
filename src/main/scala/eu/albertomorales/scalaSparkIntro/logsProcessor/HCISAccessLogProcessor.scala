@@ -1,6 +1,6 @@
-package eu.albertomorales.scalaSparkIntro.FirstExample
+package eu.albertomorales.scalaSparkIntro.logsProcessor
 
-import eu.albertomorales.scalaSparkIntro.logsProcessor.RequestStatistics
+import eu.albertomorales.scalaSparkIntro.logsProcessor.HCISLogPattern._
 
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
@@ -16,15 +16,7 @@ import org.apache.hadoop.fs.Path
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-object KK2 {
-  
-  val HCISLogPattern = "^(?!#)(\\S+\\s+\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+\\??\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(.+)\\s+(\\S+)\\s+(\\S+)$".r
-
-  val HCISAjaxServletURLPattern = "^\\S+AjaxServlet\\.servl\\S+classtoexecute=([^&]+)\\S*$".r
-  val HCISImprimirEscritosURLPattern = "^\\S+imprimirEscritos.do\\S+escrito=(\\d+)\\S*".r
-  val HCISGenericURLPattern = "^/hphis/([^\\?]+)\\?\\S+".r
-  val HCISPlantillaURLPattern = "^\\S+/edoctor/tmp/plantilla(\\d+)\\.html$".r
-  val HCISEstaticosURLPattern = "^\\S+(\\.js|\\.gif|\\.css|\\.jpg|\\.png)$".r
+object HCISAccessLogProcessor {
   
   def ahora(): String = {
     //Get current date time
@@ -36,7 +28,7 @@ object KK2 {
   
   def mapearURI(uri: String): String = {
       try {     
-        val HCISEstaticosURLPattern(extension) = uri    
+        val EstaticosURLPattern(extension) = uri    
         return "*** ESTATICO [.gif|.js|.css|.jpg|.png] ***"
       } catch {
         case e: scala.MatchError => {
@@ -45,7 +37,7 @@ object KK2 {
         }
       }  
       try {     
-        val HCISAjaxServletURLPattern(accion) = uri    
+        val AjaxServletURLPattern(accion) = uri    
         return "/hphis/AjaxServlet.servlet&classtoexecute=" + accion
       } catch {
         case e: scala.MatchError => {
@@ -54,7 +46,16 @@ object KK2 {
         }
       }
       try {     
-        val HCISImprimirEscritosURLPattern(escrito) = uri    
+        val ServletCexCitaURLPattern(accion) = uri    
+        return "/hphis/ServletCexCita.servlet&classtoexecute=" + accion
+      } catch {
+        case e: scala.MatchError => {
+        }
+        case _: Throwable => {
+        }
+      }      
+      try {     
+        val ImprimirEscritosURLPattern(escrito) = uri    
         return "/hphis/imprimirEscritos.do?escrito=" + escrito
       } catch {
         case e: scala.MatchError => {
@@ -63,7 +64,7 @@ object KK2 {
         }
       }          
       try {     
-        val HCISPlantillaURLPattern(plantilla) = uri    
+        val PlantillaURLPattern(plantilla) = uri    
         return "/hphis/edoctor/tmp/plantilla" + plantilla + ".html"
       } catch {
         case e: scala.MatchError => {
@@ -72,7 +73,7 @@ object KK2 {
         }
       }             
       try {     
-        val HCISGenericURLPattern(base) = uri    
+        val GenericURLPattern(base) = uri    
         return "/hphis/" + base
       } catch {
         case e: scala.MatchError => {
@@ -128,7 +129,7 @@ object KK2 {
     val textFileStream = ssc.textFileStream(logsPath)     
     val mapsDStream = textFileStream.map(linea => {
         try {     
-          val HCISLogPattern(g_fecha_hora, g_tiempo, g_l1, g_metodo, g_uri, g_codigo, g_tamanio, g_agente, g_l2, g_nodo) = linea
+          val LinePattern(g_fecha_hora, g_tiempo, g_l1, g_metodo, g_uri, g_codigo, g_tamanio, g_agente, g_l2, g_nodo) = linea
           val uriDefinitiva = mapearURI(g_uri)
           (uriDefinitiva, g_tiempo.toDouble)
         } catch {

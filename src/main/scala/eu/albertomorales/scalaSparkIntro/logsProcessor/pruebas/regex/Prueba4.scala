@@ -1,12 +1,11 @@
-package eu.albertomorales.scalaSparkIntro.regex
+package eu.albertomorales.scalaSparkIntro.logsProcessor.pruebas.regex
+
+import eu.albertomorales.scalaSparkIntro.logsProcessor.HCISLogPattern._
 
 object Prueba4 {
     def comprueba(cadena : String) {
-   // val HCISGenericURLPattern = "^/hphis/(\\S+)\\?\\S+([^(&)]+)".r
-      val HCISGenericURLPattern = "^/hphis/([^\\?]+)\\?\\S+".r
       try {     
-        // val HCISGenericURLPattern(base, argumentos) = cadena   
-        val HCISGenericURLPattern(base) = cadena    
+        val GenericURLPattern(base) = cadena    
         println("Es una urlGenerica: "+base)
       } catch {
         case e: scala.MatchError => {

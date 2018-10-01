@@ -1,10 +1,11 @@
-package eu.albertomorales.scalaSparkIntro.regex
+package eu.albertomorales.scalaSparkIntro.logsProcessor.pruebas.regex
+
+import eu.albertomorales.scalaSparkIntro.logsProcessor.HCISLogPattern._
 
 object Prueba3 {
     def comprueba(cadena : String) {
-      val HCISImprimirEscritosURLPattern = "^\\S+imprimirEscritos.do\\S+escrito=(\\d+)\\S*".r
       try {     
-        val HCISImprimirEscritosURLPattern(escrito) = cadena    
+        val ImprimirEscritosURLPattern(escrito) = cadena    
         println("Es un escrito: "+escrito)
       } catch {
         case e: scala.MatchError => {

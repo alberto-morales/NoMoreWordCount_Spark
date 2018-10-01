@@ -1,11 +1,12 @@
-package eu.albertomorales.scalaSparkIntro.regex
+package eu.albertomorales.scalaSparkIntro.logsProcessor.pruebas.regex
+
+import eu.albertomorales.scalaSparkIntro.logsProcessor.HCISLogPattern._
 
 object Prueba5 {
     def doIt() {
       val cadena = "/hphis/edoctor/tmp/plantilla1533127959823.html"
-      val HCISPlantillaURLPattern = "^\\S+/edoctor/tmp/plantilla(\\d+)\\.html$".r
       try {     
-        val HCISPlantillaURLPattern(plantilla) = cadena    
+        val PlantillaURLPattern(plantilla) = cadena    
         println("Es una plantilla: "+plantilla)
       } catch {
         case e: scala.MatchError => {
